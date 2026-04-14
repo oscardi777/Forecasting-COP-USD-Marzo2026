@@ -1,0 +1,2 @@
+setting,mae_normalized,mse_normalized,rmse_normalized,mape_normalized,mspe_normalized,rse_normalized,mae_real,mse_real,rmse_real,mape_real,mspe_real,rse_real
+COP_USD_DATE_2010-2026_RUN_14-04-26_DFGCN_custom_S_ft96_sl48_ll30_pl128_dm1_nh1_el1_dl128_df3_fctimeF_ebTrue_dtentrenamiento_inicial_projection_0,0.19804649,0.06353452,0.25206056,0.09012827,0.013358675,0.62094915,135.22809,29621.652,172.10942,0.032904852,0.0017563008,0.62094915
