@@ -1,2 +1,2 @@
 setting,mae_normalized,mse_normalized,rmse_normalized,mape_normalized,mspe_normalized,rse_normalized,mae_real,mse_real,rmse_real,mape_real,mspe_real,rse_real
-COP_USD_experimento1_DFGCN_custom_S_ft96_sl48_ll30_pl128_dm1_nh1_el1_dl128_df3_fctimeF_ebTrue_dtentrenamiento_inicial_projection_0,0.196538,0.07061436,0.26573363,0.057926804,0.0059473906,0.42730787,121.317726,26905.957,164.03035,0.030435186,0.0016510485,0.42730784
+COP_USD_experimento1_DFGCN_custom_S_ft96_sl48_ll30_pl128_dm1_nh1_el1_dl128_df3_fctimeF_ebTrue_dtentrenamiento_inicial_projection_0,0.19653808,0.070614465,0.2657338,0.057926834,0.005947402,0.4273082,121.31777,26905.998,164.03047,0.0304352,0.0016510513,0.4273082
