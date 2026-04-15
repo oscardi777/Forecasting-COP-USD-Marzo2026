@@ -11,7 +11,7 @@ from utils.metrics import metric
 TRAINING_YEARS = 10
 
 DATA_PATH = "datos/tasa_cop_usd_1993-2025.csv"
-RESULTS_CSV = "results_rolling_window_1993-2010.csv"
+RESULTS_CSV = "results_rolling_window_2010-2020.csv"
 HORIZONS = {
     "short": 30,
     "medium": 128,
@@ -203,8 +203,8 @@ def main():
 
     temp_files_created = []
 
-    start_year = full_df["date"].dt.year.min() + TRAINING_YEARS
-    end_year = 2010
+    start_year = 2010
+    end_year = 2020
 
     for t in range(start_year, end_year + 1):
         train_start = pd.Timestamp(f"{t - TRAINING_YEARS}-01-01")
