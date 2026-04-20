@@ -11,8 +11,8 @@ DISEÑO CLAVE — Períodos calendario reales:
   conteo fijo de días hábiles. Así "predecir enero 1997" siempre es exactamente
   enero 1997 completo, sin importar cuántos días hábiles tenga ese mes.
 
-Uso:
-    python rolling_forecast_cop_usd.py --data_path datos/tasa_cop_usd.csv
+Uso: (guardar predicciones en csv)
+    python rolling_forecast_window_PRECISE.py --data_path .\datos\tasas_BRL_COP_CHI_1993-2025.csv --save_predictions
 
 Opcional:
     --root_path   Carpeta raíz del CSV (default: .)
@@ -36,6 +36,7 @@ from torch.optim import lr_scheduler
 from torch.utils.data import Dataset, DataLoader
 from sklearn.preprocessing import StandardScaler
 from dateutil.relativedelta import relativedelta
+import random
 
 warnings.filterwarnings("ignore")
 
@@ -45,6 +46,18 @@ warnings.filterwarnings("ignore")
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
+
+# ====================== REPRODUCIBILIDAD ======================
+fix_seed = 42
+random.seed(fix_seed)
+np.random.seed(fix_seed)
+torch.manual_seed(fix_seed)
+torch.cuda.manual_seed(fix_seed)
+torch.cuda.manual_seed_all(fix_seed)
+# Determinismo CUDA (imprescindible para resultados idénticos)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+# ============================================================
 
 # ---------------------------------------------------------------------------
 # Módulos del repositorio
