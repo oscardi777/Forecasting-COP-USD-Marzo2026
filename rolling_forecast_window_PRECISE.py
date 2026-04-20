@@ -3,7 +3,7 @@ rolling_forecast_cop_usd.py
 ===========================
 Script de rolling window para predicción de la tasa COP/USD usando DFGCN.
 Reutiliza directamente los módulos del repositorio Forecasting-COP-USD.
-Todo se ejecuta en memoria: no llama a subprocess, run.py ni predict_future.py.
+Todo se ejecuta en memoria: no llama a subprocess o run.py
 
 DISEÑO CLAVE — Períodos calendario reales:
   Las ventanas de entrenamiento y predicción se definen por fechas exactas
@@ -47,7 +47,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 # ---------------------------------------------------------------------------
-# Módulos del repositorio (deben existir tal como están)
+# Módulos del repositorio
 # ---------------------------------------------------------------------------
 from utils.metrics import metric   # metric(pred, true) → mae,mse,rmse,mape,mspe,rse
 from modelos.DFGCN import Model    # Arquitectura DFGCN
@@ -72,7 +72,6 @@ GRANULARIDADES = {
 # ===========================================================================
 # FUNCIONES DE CALENDARIO
 # ===========================================================================
-
 def inicio_periodo_calendario(fecha, gran_delta):
     """
     Devuelve el primer día del período calendario al que pertenece 'fecha'
@@ -495,6 +494,8 @@ def main():
     parser.add_argument("--root_path",   default=".")
     parser.add_argument("--data_path",   default="datos/tasa_cop_usd.csv")
     parser.add_argument("--results_dir", default="./resultados_rolling/")
+    parser.add_argument("--save_predictions", action="store_true", default=False,
+                        help="Guardar CSV con las predicciones reales de cada ventana")
     cli = parser.parse_args()
 
     os.makedirs(cli.results_dir, exist_ok=True)
@@ -718,6 +719,33 @@ def main():
 
         print(f"  MAE={mae_r:.2f} COP  |  RMSE={rmse_r:.2f} COP  |  "
               f"MAPE={mape_r*100:.2f}%  |  MAE_norm={mae_n:.4f}")
+        
+        # ====================== GUARDAR PREDICCIONES EN UN SOLO CSV ======================
+        if getattr(cli, 'save_predictions', False):
+            pred_csv_path = os.path.join(
+                cli.results_dir,
+                f"predictions_{y_ini}-{y_fin}_{etiq_s}_{n_entren}p_{modo_s}.csv",
+            )
+            
+            # Crear DataFrame con las predicciones de esta ventana
+            window_pred_df = pd.DataFrame({
+                'periodo': etiq,
+                'fecha_pred_ini': p_ini.strftime("%Y-%m-%d"),
+                'fecha_pred_fin': p_fin.strftime("%Y-%m-%d"),
+                'date': dates_all[idx_pr],                         # fecha exacta
+                'pred_cop_usd': pred_real_obj.flatten(),           # predicción del modelo
+                'true_cop_usd': true_real_obj.flatten(),           # valor real
+                'error_abs': np.abs(pred_real_obj.flatten() - true_real_obj.flatten())
+            })
+            
+            # Si el archivo no existe, lo crea con header. Si existe, hace append sin header
+            if not os.path.exists(pred_csv_path):
+                window_pred_df.to_csv(pred_csv_path, index=False, mode='w')
+                print(f"  📊 Archivo de predicciones creado: {pred_csv_path}")
+            else:
+                window_pred_df.to_csv(pred_csv_path, index=False, mode='a', header=False)
+                print(f"  📊 Predicciones añadidas al archivo: {pred_csv_path}")
+        # =================================================================================
 
         resultados.append({
             "periodo_predicho":   etiq,
