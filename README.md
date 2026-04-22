@@ -2,6 +2,8 @@
 
 ## Descripción del Proyecto
 
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 Este repositorio implementa el modelo **DFGCN (Dual Frequency Graph Convolutional Network)** para la predicción de la tasa de cambio **Peso Colombiano / Dólar Estadounidense (COP/USD)**.
 
 DFGCN es un modelo de aprendizaje profundo diseñado para predicción multivariada de series de tiempo. Combina dos componentes de Redes Neuronales de Grafos (GCN) que operan en frecuencias duales:
