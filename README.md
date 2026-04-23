@@ -3,6 +3,9 @@
 ## Descripción del Proyecto
 
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Cuda 12.6 pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu126
+Cuda 12.8 pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+Cuda 13.0 pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu130
 
 Este repositorio implementa el modelo **DFGCN (Dual Frequency Graph Convolutional Network)** para la predicción de la tasa de cambio **Peso Colombiano / Dólar Estadounidense (COP/USD)**.
 
