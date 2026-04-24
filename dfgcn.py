@@ -11,7 +11,11 @@ DISENO CLAVE — Periodos calendario reales:
   conteo fijo de dias habiles.
 
 Uso: (guardar predicciones en csv)
-    python dfgcn.py --data_path .\\datos\\tasas_BRL_COP_CHI_1993-2025.csv --save_predictions
+    python dfgcn.py --data_path .\\datos\\tasas_BRL_COP_CHI_1993-2025.csv --results_dir ./resultados_rolling_ORates/ --save_predictions
+
+    python dfgcn.py --data_path .\\datos\\data_rates_gold.csv --results_dir ./resultados_rolling_Rates_Gold/ --save_predictions
+
+    python dfgcn.py --data_path .\\datos\\data_rates_bitcoin.csv --results_dir ./resultados_rolling_Rates_Bitcoin/ --save_predictions
 
 Opcional:
     --root_path   Carpeta raiz del CSV (default: .)
