@@ -15,6 +15,7 @@ predictions_1993-2025_2_meses_6p_rol.csv,predictions_randomwalk_1993-2025_2_mese
 predictions_1993-2025_2_semanas_26p_rol.csv,predictions_randomwalk_1993-2025_2_semanas.csv,2_semanas,10,78972,20.861914,0.0,True,True,RandomWalk,61.1162,29.7533,92.8315,49.2823,2.3488,1.1121
 predictions_1993-2025_2_semanas_52p_rol.csv,predictions_randomwalk_1993-2025_2_semanas.csv,2_semanas,10,76372,19.942923,0.0,True,True,RandomWalk,61.3145,30.6602,92.141,50.1079,2.3415,1.1371
 predictions_1993-2025_3_meses_12p_rol.csv,predictions_randomwalk_1993-2025_3_meses.csv,3_meses,60,475732,10.242003,0.0,True,True,RandomWalk,104.1762,87.4573,151.303,128.0132,4.0177,3.4103
+predictions_1993-2025_3_meses_40p_rol.csv,predictions_randomwalk_1993-2025_3_meses.csv,3_meses,60,356507,6.535177,1e-10,True,True,RandomWalk,110.9384,99.0428,156.7164,140.0956,3.9361,3.545
 predictions_1993-2025_3_meses_8p_rol.csv,predictions_randomwalk_1993-2025_3_meses.csv,3_meses,60,492632,10.493472,0.0,True,True,RandomWalk,101.7707,85.2823,149.2114,125.9538,3.9901,3.3833
 predictions_1993-2025_6_meses_4p_rol.csv,predictions_randomwalk_1993-2025_6_meses.csv,6_meses,120,976842,7.977757,0.0,True,True,RandomWalk,135.7217,121.8195,200.4037,176.4034,5.4025,5.0244
 predictions_1993-2025_6_meses_6p_rol.csv,predictions_randomwalk_1993-2025_6_meses.csv,6_meses,120,943042,8.465606,0.0,True,True,RandomWalk,141.608,124.1599,203.4089,179.0824,5.5357,4.9864
