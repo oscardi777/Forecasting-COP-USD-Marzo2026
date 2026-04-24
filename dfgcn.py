@@ -1,5 +1,5 @@
 """
-rolling_forecast_window_PRECISE.py
+dfgcn.py
 ===================================
 Script de rolling window para prediccion de la tasa COP/USD usando DFGCN.
 Reutiliza directamente los modulos del repositorio Forecasting-COP-USD.
@@ -11,7 +11,7 @@ DISENO CLAVE — Periodos calendario reales:
   conteo fijo de dias habiles.
 
 Uso: (guardar predicciones en csv)
-    python rolling_forecast_window_PRECISE.py --data_path .\\datos\\tasas_BRL_COP_CHI_1993-2025.csv --save_predictions
+    python dfgcn.py --data_path .\\datos\\tasas_BRL_COP_CHI_1993-2025.csv --save_predictions
 
 Opcional:
     --root_path   Carpeta raiz del CSV (default: .)

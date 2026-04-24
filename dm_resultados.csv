@@ -1,11 +1,15 @@
 archivo_dfgcn,archivo_rw,horizonte,h_dias,N_obs,dm_stat,p_value,significativo_5%,significativo_1%,mejor_modelo,mae_dfgcn,mae_rw,rmse_dfgcn,rmse_rw,mape_dfgcn_%,mape_rw_%
+predictions_1993-2025_1_ano_10p_rol.csv,predictions_randomwalk_1993-2025_1_ano.csv,1_ano,252,1379436,3.116721,0.0018287853,True,True,RandomWalk,198.0546,186.3763,279.8755,264.6682,7.1361,6.6075
 predictions_1993-2025_1_año_3p_rol.csv,predictions_randomwalk_1993-2025_1_ano.csv,1_ano,252,1856285,0.61144,0.540908104,False,False,Sin diferencia significativa,178.0093,176.8441,253.1585,250.9174,7.0063,7.1382
 predictions_1993-2025_1_año_5p_rol.csv,predictions_randomwalk_1993-2025_1_ano.csv,1_ano,252,1719520,1.154554,0.248273269,False,False,Sin diferencia significativa,186.1144,183.6278,262.9787,258.3668,7.0381,7.0476
 predictions_1993-2025_1_mes_12p_rol.csv,predictions_randomwalk_1993-2025_1_mes.csv,1_mes,20,342194,26.033015,0.0,True,True,RandomWalk,73.5638,47.544,111.6111,75.0142,2.8532,1.8161
 predictions_1993-2025_1_mes_24p_rol.csv,predictions_randomwalk_1993-2025_1_mes.csv,1_mes,20,165455,17.366544,0.0,True,True,RandomWalk,74.7552,48.9794,111.0169,76.2668,2.8787,1.8556
 predictions_1993-2025_1_semana_104p_rol.csv,predictions_randomwalk_1993-2025_1_semana.csv,1_semana,5,38308,22.445026,0.0,True,True,RandomWalk,55.5265,22.913,83.7796,38.1594,2.1119,0.8433
 predictions_1993-2025_1_semana_156p_rol.csv,predictions_randomwalk_1993-2025_1_semana.csv,1_semana,5,37008,22.149216,0.0,True,True,RandomWalk,55.9776,23.5772,84.045,38.8071,2.0945,0.8576
+predictions_1993-2025_1_semana_260p_rol.csv,predictions_randomwalk_1993-2025_1_semana.csv,1_semana,5,34408,19.850012,0.0,True,True,RandomWalk,55.15,24.9938,81.8755,40.1888,2.0093,0.8891
 predictions_1993-2025_1_semana_52p_rol.csv,predictions_randomwalk_1993-2025_1_semana.csv,1_semana,5,39608,23.234634,0.0,True,True,RandomWalk,55.1614,22.2344,84.9157,37.5323,2.1068,0.8245
+predictions_1993-2025_2_anos_3p_rol.csv,predictions_randomwalk_1993-2025_2_anos.csv,2_anos,504,3302447,4.726076,2.2891e-06,True,True,RandomWalk,293.7253,279.0585,414.524,389.8813,10.52,10.3265
+predictions_1993-2025_2_anos_5p_rol.csv,predictions_randomwalk_1993-2025_2_anos.csv,2_anos,504,2758522,4.487527,7.2057e-06,True,True,RandomWalk,308.4477,280.3887,420.8998,396.2601,10.8666,9.7157
 predictions_1993-2025_2_meses_12p_rol.csv,predictions_randomwalk_1993-2025_2_meses.csv,2_meses,40,329572,12.273403,0.0,True,True,RandomWalk,89.4118,70.1412,132.8876,108.0198,3.4809,2.7226
 predictions_1993-2025_2_meses_6p_rol.csv,predictions_randomwalk_1993-2025_2_meses.csv,2_meses,40,340846,13.772456,0.0,True,True,RandomWalk,89.4926,68.1135,134.8425,106.2391,3.5164,2.6679
 predictions_1993-2025_2_semanas_26p_rol.csv,predictions_randomwalk_1993-2025_2_semanas.csv,2_semanas,10,78972,20.861914,0.0,True,True,RandomWalk,61.1162,29.7533,92.8315,49.2823,2.3488,1.1121

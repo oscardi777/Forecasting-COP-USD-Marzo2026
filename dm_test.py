@@ -64,7 +64,6 @@ HORIZONTE_MAP = [
     ("6_meses",   120, "6_meses"),
     ("1_ano",     252, "1_ano"),
     ("2_anos",    504, "2_anos"),
-    # variantes con tilde (por si acaso)
     ("1_año",     252, "1_ano"),
     ("2_años",    504, "2_anos"),
 ]
@@ -165,8 +164,6 @@ def dm_test(df_model, df_rw, h):
 
     d_mean = np.mean(d)
 
-    # Varianza de largo plazo (Harvey, Leybourne & Newbold, 1997)
-    # Incluye autocovarianzas hasta lag h-1
     gamma0 = np.var(d, ddof=0)
     var_lrv = gamma0
     for lag in range(1, h):
