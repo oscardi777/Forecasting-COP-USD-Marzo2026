@@ -17,6 +17,8 @@ Uso: (guardar predicciones en csv)
 
     python dfgcn.py --data_path .\\datos\\data_rates_bitcoin.csv --results_dir ./resultados_rolling_Rates_Bitcoin/ --save_predictions
 
+    python dfgcn.py --data_path .\\datos\\data_ratesIB_exchange_2019-2025.csv --results_dir ./resultados_rolling_Rates_IB/ --save_predictions
+
 Opcional:
     --root_path   Carpeta raiz del CSV (default: .)
     --data_path   Nombre o ruta completa del CSV
