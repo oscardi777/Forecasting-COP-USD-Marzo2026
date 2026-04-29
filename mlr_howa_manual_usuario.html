@@ -1,0 +1,536 @@
+
+<h2 class="sr-only">Manual de usuario MLR-HOWA: guía interactiva de operadores, parámetros y pesos personalizados</h2>
+
+<style>
+  :root { --accent: #185FA5; --accent-light: #E6F1FB; --border: var(--color-border-tertiary); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); color: var(--color-text-primary); font-size: 15px; line-height: 1.6; }
+  .section { padding: 1.25rem 0; border-bottom: 0.5px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  h2 { font-size: 18px; font-weight: 500; margin-bottom: 0.5rem; }
+  h3 { font-size: 15px; font-weight: 500; margin-bottom: 0.4rem; color: var(--color-text-primary); }
+  .subtitle { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 1rem; }
+  .op-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 0.75rem; }
+  .op-card { background: var(--color-background-primary); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); padding: 0.85rem 1rem; cursor: pointer; transition: border-color 0.15s; }
+  .op-card:hover { border-color: var(--color-border-primary); }
+  .op-card.active { border: 2px solid var(--accent); }
+  .op-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; margin-bottom: 6px; font-family: var(--font-mono); }
+  .badge-owa { background: #E6F1FB; color: #0C447C; }
+  .badge-howa { background: #EAF3DE; color: #27500A; }
+  .badge-iowa { background: #FAEEDA; color: #633806; }
+  .badge-igowa { background: #FAECE7; color: #712B13; }
+  .badge-ihowa { background: #FBEAF0; color: #72243E; }
+  .badge-ighowa { background: #EEEDFE; color: #3C3489; }
+  .op-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .op-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.4; }
+  .op-params { font-size: 11px; color: var(--color-text-secondary); margin-top: 6px; font-family: var(--font-mono); }
+  .detail-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem 1.1rem; margin-top: 0.85rem; display: none; }
+  .detail-box.visible { display: block; }
+  .detail-title { font-weight: 500; font-size: 14px; margin-bottom: 0.5rem; }
+  .param-row { display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  .param-label { font-size: 13px; color: var(--color-text-secondary); width: 80px; flex-shrink: 0; }
+  input[type=range] { flex: 1; min-width: 120px; }
+  .param-val { font-size: 14px; font-weight: 500; min-width: 36px; font-family: var(--font-mono); }
+  .scenario-label { font-size: 12px; color: var(--color-text-secondary); display: flex; justify-content: space-between; }
+  .weight-vis { display: flex; align-items: flex-end; gap: 4px; height: 80px; margin: 0.75rem 0 0.4rem; }
+  .bar { border-radius: 3px 3px 0 0; transition: height 0.25s, background 0.25s; min-height: 2px; flex: 1; }
+  .sum-line { font-size: 12px; color: var(--color-text-secondary); }
+  .sum-val { font-weight: 500; color: var(--color-text-primary); font-family: var(--font-mono); }
+  .interp-box { font-size: 13px; color: var(--color-text-secondary); background: var(--color-background-primary); border: 0.5px solid var(--border); border-radius: var(--border-radius-md); padding: 0.6rem 0.85rem; margin-top: 0.5rem; line-height: 1.5; }
+  .cmd-block { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary); margin-top: 0.75rem; line-height: 1.7; }
+  .cmd-block span.hl { color: var(--color-text-primary); font-weight: 500; }
+  .qa-row { padding: 0.65rem 0; border-bottom: 0.5px solid var(--border); }
+  .qa-row:last-child { border-bottom: none; }
+  .question { font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .answer { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-top: 0.4rem; display: none; }
+  .answer.open { display: block; }
+  .chevron { transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+  .weight-custom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 0.75rem; }
+  .weight-example { background: var(--color-background-primary); border: 0.5px solid var(--border); border-radius: var(--border-radius-md); padding: 0.75rem 0.9rem; }
+  .we-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .we-vals { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-primary); word-break: break-all; line-height: 1.5; }
+  .we-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
+  .tab-bar { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); margin-bottom: 1rem; }
+  .tab { padding: 0.5rem 1rem; font-size: 13px; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; margin-bottom: -0.5px; }
+  .tab.active { color: var(--color-text-primary); border-bottom-color: var(--accent); font-weight: 500; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .step { display: flex; gap: 12px; margin-bottom: 0.85rem; align-items: flex-start; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-light); color: #0C447C; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+  .step-text b { color: var(--color-text-primary); font-weight: 500; }
+  .tip { background: #E6F1FB; border-radius: var(--border-radius-md); padding: 0.6rem 0.85rem; font-size: 12px; color: #0C447C; margin-top: 0.5rem; line-height: 1.5; }
+  .warn { background: #FAEEDA; border-radius: var(--border-radius-md); padding: 0.6rem 0.85rem; font-size: 12px; color: #633806; margin-top: 0.5rem; line-height: 1.5; }
+</style>
+
+<div style="padding: 1rem 0 0.5rem;">
+  <div style="font-size: 13px; color: var(--color-text-secondary); font-family: var(--font-mono); margin-bottom: 4px;">mlr_howa_rolling.py — manual de usuario</div>
+  <h2 style="font-size: 22px;">Guía interactiva de operadores MLR-HOWA</h2>
+  <p class="subtitle">Selecciona un operador para ver sus parámetros, interpretar los pesos y generar el comando de ejecución.</p>
+</div>
+
+<div class="section">
+  <h2>1. Elige tu operador</h2>
+  <p class="subtitle">Cada variante difiere en cómo reordena los datos y si puede "sobreestimar" (pesos que suman más que 1).</p>
+  <div class="op-grid" id="opGrid">
+    <div class="op-card active" data-op="owa" onclick="selectOp(this)">
+      <span class="op-badge badge-owa">OWA</span>
+      <div class="op-name">Ordered Weighted Avg</div>
+      <div class="op-desc">Media ponderada estándar. Suma de pesos = 1. Reordena por valor.</div>
+      <div class="op-params">param: orness [0-1]</div>
+    </div>
+    <div class="op-card" data-op="howa" onclick="selectOp(this)">
+      <span class="op-badge badge-howa">HOWA</span>
+      <div class="op-name">Heavy OWA</div>
+      <div class="op-desc">Pesos que pueden sumar más de 1. Permite sobreestimar. Reordena por valor.</div>
+      <div class="op-params">param: beta [0-1]</div>
+    </div>
+    <div class="op-card" data-op="iowa" onclick="selectOp(this)">
+      <span class="op-badge badge-iowa">IOWA</span>
+      <div class="op-name">Induced OWA</div>
+      <div class="op-desc">Igual que OWA pero reordena por un vector inductor (aquí: tiempo, más reciente = más peso).</div>
+      <div class="op-params">param: orness [0-1]</div>
+    </div>
+    <div class="op-card" data-op="igowa" onclick="selectOp(this)">
+      <span class="op-badge badge-igowa">IGOWA</span>
+      <div class="op-name">Induced Generalized OWA</div>
+      <div class="op-desc">IOWA + exponente lambda que regula la intensidad de los valores.</div>
+      <div class="op-params">params: orness + lambda</div>
+    </div>
+    <div class="op-card" data-op="ihowa" onclick="selectOp(this)">
+      <span class="op-badge badge-ihowa">IHOWA</span>
+      <div class="op-name">Induced Heavy OWA</div>
+      <div class="op-desc">HOWA + reordenamiento por vector inductor (tiempo). Sobreestimación + recencia.</div>
+      <div class="op-params">param: beta [0-1]</div>
+    </div>
+    <div class="op-card" data-op="ighowa" onclick="selectOp(this)">
+      <span class="op-badge badge-ighowa">IGHOWA</span>
+      <div class="op-name">Induced Generalized HOWA</div>
+      <div class="op-desc">Versión completa: recencia + sobreestimación + intensidad. Mejor para COP según el paper.</div>
+      <div class="op-params">params: beta + lambda</div>
+    </div>
+  </div>
+
+  <div class="detail-box visible" id="detailBox">
+    <div class="detail-title" id="detailTitle">OWA — Ordered Weighted Average</div>
+    <div id="detailControls"></div>
+    <div class="weight-vis" id="weightBars"></div>
+    <div class="scenario-label" id="scenarioLabel"><span>pesimista (mínimo)</span><span>neutral</span><span>optimista (máximo)</span></div>
+    <div class="sum-line">Suma de pesos: <span class="sum-val" id="sumVal">1.00</span> &nbsp;·&nbsp; <span id="interpText" style="font-size:12px; color: var(--color-text-secondary);"></span></div>
+    <div class="interp-box" id="interpBox"></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>2. ¿Qué valor elegir?</h2>
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab(0)">orness (OWA / IOWA / IGOWA)</div>
+    <div class="tab" onclick="switchTab(1)">beta (HOWA / IHOWA / IGHOWA)</div>
+    <div class="tab" onclick="switchTab(2)">lambda (IGOWA / IGHOWA)</div>
+  </div>
+  <div class="tab-content active" id="tab0">
+    <p style="font-size:13px; color:var(--color-text-secondary); margin-bottom:0.75rem;">El <b style="color:var(--color-text-primary);">orness</b> controla cuánto peso das al escenario optimista vs. pesimista. Es como decir "¿qué tan alcista eres sobre el COP?"</p>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">orness = 0.0 — pesimista puro</div>
+      <div class="we-vals">Todo el peso en el valor más bajo (mínimo de la muestra)</div>
+      <div class="we-desc">Úsalo si crees que la tasa tenderá al peor escenario histórico del periodo.</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">orness = 0.3 — moderadamente pesimista</div>
+      <div class="we-vals">Más peso en valores bajos, algo en los medios</div>
+      <div class="we-desc">Buen punto de partida cuando el contexto macro es adverso (inflación alta, crisis).</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">orness = 0.5 — neutral (media aritmética)</div>
+      <div class="we-vals">Pesos uniformes — equivale a OLS estándar</div>
+      <div class="we-desc">Punto de referencia. Si el orness óptimo es 0.5, el operador no aporta ventaja sobre OLS.</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">orness = 0.7 — moderadamente optimista (default)</div>
+      <div class="we-vals">Más peso en valores altos, algo en los medios</div>
+      <div class="we-desc">Default del script. Buen punto de partida general para la mayoría de escenarios.</div>
+    </div>
+    <div class="weight-example">
+      <div class="we-label">orness = 1.0 — optimista puro</div>
+      <div class="we-vals">Todo el peso en el valor más alto (máximo de la muestra)</div>
+      <div class="we-desc">Úsalo sólo si esperas que la tasa converja al máximo histórico. Muy sesgado.</div>
+    </div>
+    <div class="tip" style="margin-top:10px;">En la pregunta de la consola: ingresa un número entre 0 y 1. Si presionas Enter sin escribir nada, se usa 0.7.</div>
+  </div>
+  <div class="tab-content" id="tab1">
+    <p style="font-size:13px; color:var(--color-text-secondary); margin-bottom:0.75rem;">El <b style="color:var(--color-text-primary);">beta</b> controla la "pesadez" del operador HOWA. Determina cuánto puede la suma de pesos exceder 1 (y por tanto sobreestimar el resultado).</p>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">beta = 0.0 — sin pesadez</div>
+      <div class="we-vals">Suma de pesos = 1 → equivale a OWA normal</div>
+      <div class="we-desc">HOWA con beta=0 produce exactamente el mismo resultado que OWA.</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">beta = 0.3 — pesadez leve</div>
+      <div class="we-vals">Suma de pesos ≈ 1 + 0.3×(n-1)</div>
+      <div class="we-desc">Sobreestimación moderada. Útil cuando el modelo tiende a subestimar picos de volatilidad.</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">beta = 0.5 — pesadez media (default)</div>
+      <div class="we-vals">Suma de pesos = 1 + 0.5×(n-1) = (n+1)/2</div>
+      <div class="we-desc">Default del script. Balance entre precisión media y capacidad de sobreestimar extremos.</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">beta = 0.8 — pesadez alta</div>
+      <div class="we-vals">Suma de pesos ≈ 1 + 0.8×(n-1)</div>
+      <div class="we-desc">Los betas del modelo se sesgan fuertemente hacia sobreestimación. Útil en períodos de alta volatilidad como 2020 o 2022.</div>
+    </div>
+    <div class="weight-example">
+      <div class="we-label">beta = 1.0 — operador total</div>
+      <div class="we-vals">Suma de pesos = n (máxima sobreestimación)</div>
+      <div class="we-desc">Equivale a sumar todos los valores sin dividir. Raramente útil en la práctica.</div>
+    </div>
+    <div class="warn" style="margin-top:10px;">Con beta muy alto (>0.8) y series volátiles, el modelo puede producir predicciones fuera de rango. Empieza con beta=0.5 y ajusta.</div>
+  </div>
+  <div class="tab-content" id="tab2">
+    <p style="font-size:13px; color:var(--color-text-secondary); margin-bottom:0.75rem;">El <b style="color:var(--color-text-primary);">lambda</b> generaliza la media: en lugar de ponderar los valores, pondera sus potencias y luego deshace la potencia.</p>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">lambda = 1 — media aritmética ponderada</div>
+      <div class="we-vals">sin transformación → igual que OWA/IOWA estándar</div>
+      <div class="we-desc">Lambda=1 desactiva la generalización. Equivale al operador no-generalizado.</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">lambda = 2 — media cuadrática (default del paper)</div>
+      <div class="we-vals">pondera v², luego saca raíz cuadrada</div>
+      <div class="we-desc">Penaliza más los valores grandes. El paper (Flores-Sosa et al., 2022) usa λ=2 en todos sus experimentos. Es el valor recomendado.</div>
+    </div>
+    <div class="weight-example" style="margin-bottom:10px;">
+      <div class="we-label">lambda = 3</div>
+      <div class="we-vals">media cúbica ponderada</div>
+      <div class="we-desc">Penaliza aún más los extremos. Útil con series muy sesgadas.</div>
+    </div>
+    <div class="weight-example">
+      <div class="we-label">lambda = -1 — media armónica ponderada</div>
+      <div class="we-vals">pondera 1/v, luego invierte</div>
+      <div class="we-desc">Da más peso a valores pequeños. Útil si quieres capturar períodos de COP bajo (fortaleza del peso).</div>
+    </div>
+    <div class="tip" style="margin-top:10px;">En la consola el script pregunta: <code style="font-family:var(--font-mono); font-size:11px;">lambda [2.0]:</code> — presiona Enter para aceptar el valor del paper.</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>3. Pesos personalizados</h2>
+  <p class="subtitle">Cuando tienes criterio experto sobre qué períodos históricos importan más, puedes ingresar tu propio vector de pesos.</p>
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab2(0)">¿Cuándo usarlos?</div>
+    <div class="tab" onclick="switchTab2(1)">Ejemplos listos para copiar</div>
+    <div class="tab" onclick="switchTab2(2)">Cómo ingresar en la consola</div>
+  </div>
+  <div class="tab-content active" id="tab2_0">
+    <div class="step"><div class="step-num">1</div><div class="step-text"><b>Tienes conocimiento del mercado</b> — sabes que los últimos 3 meses son más relevantes que todo el histórico anterior.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text"><b>Replicas el paper</b> — Tabla 1 del paper define W1 (OWA acotado) y W2 (HOWA desacotado) para 18 períodos mensuales.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text"><b>Quieres aislar períodos específicos</b> — por ejemplo ignorar 2020 (COVID) asignando peso = 0 a esos lags.</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text"><b>Pruebas de sensibilidad</b> — comparas el modelo con pesos uniformes vs. pesos concentrados para ver cuál generaliza mejor.</div></div>
+    <div class="warn">El vector debe tener exactamente <b>num_lags</b> elementos. Si la longitud no coincide, el script ignora los pesos custom y usa los automáticos.</div>
+  </div>
+  <div class="tab-content" id="tab2_1">
+    <p style="font-size:12px; color:var(--color-text-secondary); margin-bottom:0.75rem;">Para <b style="color:var(--color-text-primary);">num_lags = 10</b> (2 semanas hábiles). Copiar y pegar en la consola cuando el script lo pida.</p>
+    <div class="weight-custom">
+      <div class="weight-example">
+        <div class="we-label">Uniformes (OWA, suma=1)</div>
+        <div class="we-vals">0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1</div>
+        <div class="we-desc">Equivale a OLS estándar. Buen baseline.</div>
+      </div>
+      <div class="weight-example">
+        <div class="we-label">Recientes (más peso al lag 1)</div>
+        <div class="we-vals">0.28,0.2,0.14,0.1,0.07,0.07,0.05,0.04,0.03,0.02</div>
+        <div class="we-desc">El día más reciente pesa 28%. Captura momentum de corto plazo.</div>
+      </div>
+      <div class="weight-example">
+        <div class="we-label">Históricos (más peso al lag 10)</div>
+        <div class="we-vals">0.02,0.03,0.04,0.05,0.07,0.07,0.1,0.14,0.2,0.28</div>
+        <div class="we-desc">Más peso en la historia lejana. Captura tendencias estructurales.</div>
+      </div>
+      <div class="weight-example">
+        <div class="we-label">HOWA pesado (suma=3)</div>
+        <div class="we-vals">0.55,0.45,0.38,0.32,0.28,0.24,0.2,0.2,0.2,0.18</div>
+        <div class="we-desc">Suma ≈ 3 → beta moderado. Sobreestimación controlada.</div>
+      </div>
+      <div class="weight-example">
+        <div class="we-label">Bloque central</div>
+        <div class="we-vals">0.05,0.05,0.15,0.2,0.2,0.15,0.1,0.05,0.03,0.02</div>
+        <div class="we-desc">Más peso en lags 3-6 (1-1.5 semanas atrás). Útil si la señal es media.</div>
+      </div>
+      <div class="weight-example">
+        <div class="we-label">W1 del paper (18 períodos)</div>
+        <div class="we-vals">0.04,0.04,0.04,0.04,0.06,0.06,0.07,0.07,0.06,0.04,0.04,0.04,0.04,0.05,0.06,0.07,0.08,0.10</div>
+        <div class="we-desc">Para num_lags=18. Réplica exacta de la Tabla 1 del paper (OWA, suma=1).</div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content" id="tab2_2">
+    <div class="step"><div class="step-num">1</div><div class="step-text">El script pregunta: <code style="font-family:var(--font-mono); font-size:11px;">¿Usar pesos personalizados? [s/N]:</code> — escribe <code style="font-family:var(--font-mono); font-size:11px;">s</code> y presiona Enter.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">Aparece: <code style="font-family:var(--font-mono); font-size:11px;">Ingrese N pesos separados por coma:</code> donde N = num_lags que elegiste.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">Escribe los valores separados por coma, <b>sin espacios</b>: <code style="font-family:var(--font-mono); font-size:11px;">0.28,0.2,0.14,0.1,0.07,0.07,0.05,0.04,0.03,0.02</code></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text">El script confirma: <code style="font-family:var(--font-mono); font-size:11px;">Pesos personalizados aceptados (suma = X.XXXX)</code>. Si la longitud es incorrecta, usa automáticos sin interrumpir.</div></div>
+    <div class="tip">Para OWA estándar la suma debe ser 1.0 o muy cercana. Para HOWA puede ser cualquier valor en [1, num_lags]. El script no normaliza automáticamente — tú decides la suma.</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>4. Guía de comandos por caso de uso</h2>
+  <p class="subtitle">Copia el comando y sigue el menú interactivo. Las preguntas aparecen en orden.</p>
+  <div class="cmd-block">
+    <div style="color:var(--color-text-secondary); margin-bottom:4px;"># Caso 1: dataset multivariado, modo por defecto (HOWA, 1 mes, 12 períodos)</div>
+    <div><span class="hl">python mlr_howa_rolling.py</span> --data_path datos/tasas_BRL_COP_CHI_1993-2025.csv --save_predictions</div>
+    <div style="color:var(--color-text-secondary); font-size:11px; margin-top:2px;">→ En el menú: [3] 1 mes · 12 periodos · rolling · 10 lags · howa · beta=0.5</div>
+  </div>
+  <div class="cmd-block">
+    <div style="color:var(--color-text-secondary); margin-bottom:4px;"># Caso 2: dataset univariado (solo COP/USD)</div>
+    <div><span class="hl">python mlr_howa_rolling.py</span> --data_path datos/tasa_cop_usd.csv --save_predictions</div>
+    <div style="color:var(--color-text-secondary); font-size:11px; margin-top:2px;">→ En el menú: [3] 1 mes · 12 periodos · rolling · 5 lags · ighowa · beta=0.5 · lambda=2</div>
+  </div>
+  <div class="cmd-block">
+    <div style="color:var(--color-text-secondary); margin-bottom:4px;"># Caso 3: carpeta de resultados personalizada + sin guardar predicciones individuales</div>
+    <div><span class="hl">python mlr_howa_rolling.py</span> --data_path datos/data_rates_gold.csv --results_dir ./resultados_gold/</div>
+  </div>
+  <div class="cmd-block">
+    <div style="color:var(--color-text-secondary); margin-bottom:4px;"># Caso 4: expanding window (toda la historia como entrenamiento)</div>
+    <div><span class="hl">python mlr_howa_rolling.py</span> --data_path datos/tasas_BRL_COP_CHI_1993-2025.csv --save_predictions</div>
+    <div style="color:var(--color-text-secondary); font-size:11px; margin-top:2px;">→ En el menú: cualquier granularidad · [2] modo Expanding · ighowa</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>5. Preguntas frecuentes</h2>
+  <div id="qaList">
+    <div class="qa-row">
+      <div class="question" onclick="toggleQa(this)">¿Qué operador recomienda el paper para USD/COP? <span class="chevron">▾</span></div>
+      <div class="answer">El paper (Tabla 6) muestra que IGHOWA e IHOWA minimizan el error para USD/COP. IGHOWA con λ=2 logra el MAE más bajo. Como punto de partida usa IGHOWA con beta=0.5 y lambda=2.</div>
+    </div>
+    <div class="qa-row">
+      <div class="question" onclick="toggleQa(this)">¿Cuántos lags (num_lags) debo usar? <span class="chevron">▾</span></div>
+      <div class="answer">Depende de la granularidad que eliges: para 1 semana usa 5 lags (1 semana de historia). Para 1 mes prueba 10-22 lags (2-4 semanas). Para 3 meses prueba 22-66 lags. Más lags = más capacidad pero más riesgo de overfitting. Empieza con 10 y compara el MAE.</div>
+    </div>
+    <div class="qa-row">
+      <div class="question" onclick="toggleQa(this)">¿Por qué mi suma de pesos HOWA da un número mayor que 1? <span class="chevron">▾</span></div>
+      <div class="answer">Es correcto. HOWA por definición tiene |W| ∈ [1, n]. Con beta=0.5 y num_lags=10 la suma es 1 + 0.5×(10-1) = 5.5. Esto es la característica que permite sobreestimar el resultado y explorar escenarios extremos.</div>
+    </div>
+    <div class="qa-row">
+      <div class="question" onclick="toggleQa(this)">¿Cuál es la diferencia entre IOWA e IOWA con inductor temporal? <span class="chevron">▾</span></div>
+      <div class="answer">En OWA el reordenamiento va de mayor a menor por valor. En IOWA (y IHOWA) el reordenamiento va por el vector inductor: aquí se usa el índice temporal (período más reciente = mayor inductor), así los datos más recientes se colocan primero y reciben más peso en la media ponderada. Esto es útil cuando la dinámica reciente es más informativa que la histórica.</div>
+    </div>
+    <div class="qa-row">
+      <div class="question" onclick="toggleQa(this)">El script me dice "Muestras de entrenamiento insuficientes". ¿Qué hago? <span class="chevron">▾</span></div>
+      <div class="answer">Reduce num_lags o aumenta el número de períodos de entrenamiento (n_entren). El script necesita al menos num_lags+5 observaciones en cada ventana para construir las features. Con 1 semana y num_lags=10 necesitas al menos 3 semanas de historia.</div>
+    </div>
+    <div class="qa-row">
+      <div class="question" onclick="toggleQa(this)">¿Cómo comparo MLR-HOWA contra Random Walk con dm_test.py? <span class="chevron">▾</span></div>
+      <div class="answer">Las columnas date, pred_cop_usd y true_cop_usd de predictions_*.csv son exactamente las que espera dm_test.py. Pon los archivos de MLR-HOWA en --path_dfgcn y los del Random Walk en --path_rw. El test detecta automáticamente el horizonte por el nombre del archivo.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const opData = {
+  owa: {
+    title: 'OWA — Ordered Weighted Average',
+    params: `<div class="param-row">
+      <span class="param-label">orness</span>
+      <input type="range" min="0" max="100" value="70" oninput="updateOp('owa',this.value)" id="sl_owa">
+      <span class="param-val" id="pv_owa">0.70</span>
+    </div>
+    <div class="scenario-label"><span>0.0 pesimista</span><span>0.5 neutral</span><span>1.0 optimista</span></div>`,
+    compute: (v, n=10) => {
+      const orness = v/100;
+      if (Math.abs(orness-0.5)<0.01) return { w: Array(n).fill(1/n), sum: 1 };
+      const j = Array.from({length:n},(_,i)=>i+1);
+      let lo=-10, hi=10;
+      const orn = k => { const r=j.map(jj=>Math.exp(-k*(jj-1))); const s=r.reduce((a,b)=>a+b,0); const w=r.map(x=>x/s); return w.reduce((a,x,i)=>a+x*(n-j[i])/(n-1),0); };
+      for(let i=0;i<200;i++){const m=(lo+hi)/2; orn(m)>orness?hi=m:lo=m;}
+      const k=(lo+hi)/2;
+      const raw=j.map(jj=>Math.exp(-k*(jj-1))); const s=raw.reduce((a,b)=>a+b,0);
+      return { w: raw.map(x=>x/s), sum: 1 };
+    },
+    interp: (v) => {
+      const o=v/100;
+      if(o<0.2) return 'Los betas se calculan priorizando los valores más bajos del período. El modelo subestimará el COP en promedio.';
+      if(o<0.4) return 'Betas con sesgo moderado hacia valores bajos. Útil en contextos de debilitamiento del peso.';
+      if(o<0.6) return 'Pesos casi uniformes — similar a OLS estándar. Sin sesgo notable.';
+      if(o<0.8) return 'Betas con algo más de peso en los valores altos. Default recomendado (0.7). Buen punto de partida.';
+      return 'Los betas se calculan priorizando los valores más altos. El modelo tiende a sobreestimar el COP.';
+    }
+  },
+  howa: {
+    title: 'HOWA — Heavy Ordered Weighted Average',
+    params: `<div class="param-row">
+      <span class="param-label">beta</span>
+      <input type="range" min="0" max="100" value="50" oninput="updateOp('howa',this.value)" id="sl_howa">
+      <span class="param-val" id="pv_howa">0.50</span>
+    </div>
+    <div class="scenario-label"><span>0.0 = OWA (suma=1)</span><span>0.5 medio</span><span>1.0 total (suma=n)</span></div>`,
+    compute: (v, n=10) => {
+      const beta=v/100; const target=1+beta*(n-1);
+      const j=Array.from({length:n},(_,i)=>i+1);
+      const raw=j.map(jj=>Math.exp(-0.5*(jj-1))); const s=raw.reduce((a,b)=>a+b,0);
+      return { w: raw.map(x=>x/s*target), sum: target };
+    },
+    interp: (v) => {
+      const b=v/100;
+      if(b<0.1) return 'Beta ≈ 0: equivale a OWA normal. La suma de pesos es 1. Sin sobreestimación.';
+      if(b<0.35) return 'Sobreestimación leve. Los betas resultantes son ligeramente mayores que en OLS. Buenos para capturar picos moderados.';
+      if(b<0.65) return 'Sobreestimación media (default 0.5). Balance entre precisión y capacidad de explorar escenarios extremos.';
+      if(b<0.85) return 'Sobreestimación alta. Los betas pueden alejarse significativamente de OLS. Útil en períodos de alta volatilidad (ej. 2020, 2022).';
+      return 'Beta ≈ 1: operador total. Suma = n. Sobreestimación máxima. Usar sólo con series muy estables o como límite superior del escenario.';
+    }
+  },
+  iowa: {
+    title: 'IOWA — Induced Ordered Weighted Average',
+    params: `<div class="param-row">
+      <span class="param-label">orness</span>
+      <input type="range" min="0" max="100" value="70" oninput="updateOp('iowa',this.value)" id="sl_iowa">
+      <span class="param-val" id="pv_iowa">0.70</span>
+    </div>
+    <div class="scenario-label"><span>0.0 historia lejana</span><span>0.5 neutral</span><span>1.0 más reciente</span></div>`,
+    compute: (v, n=10) => {
+      const orness=v/100;
+      if(Math.abs(orness-0.5)<0.01) return { w: Array(n).fill(1/n), sum: 1 };
+      const j=Array.from({length:n},(_,i)=>i+1);
+      let lo=-10, hi=10;
+      const orn = k => { const r=j.map(jj=>Math.exp(-k*(jj-1))); const s=r.reduce((a,b)=>a+b,0); const w=r.map(x=>x/s); return w.reduce((a,x,i)=>a+x*(n-j[i])/(n-1),0); };
+      for(let i=0;i<200;i++){const m=(lo+hi)/2; orn(m)>orness?hi=m:lo=m;}
+      const k=(lo+hi)/2;
+      const raw=j.map(jj=>Math.exp(-k*(jj-1))); const s=raw.reduce((a,b)=>a+b,0);
+      return { w: raw.map(x=>x/s), sum: 1 };
+    },
+    interp: (v) => {
+      const o=v/100;
+      if(o<0.3) return 'El reordenamiento por tiempo + orness bajo → más peso en períodos distantes. El modelo da importancia a la historia lejana.';
+      if(o<0.6) return 'Distribución balanceada por tiempo. Los períodos recientes y lejanos contribuyen de forma similar.';
+      return 'orness alto + reordenamiento temporal → más peso en los períodos más recientes. Captura bien el momentum actual del COP.';
+    }
+  },
+  igowa: {
+    title: 'IGOWA — Induced Generalized OWA',
+    params: `<div class="param-row">
+      <span class="param-label">orness</span>
+      <input type="range" min="0" max="100" value="70" oninput="updateOp('igowa',this.value)" id="sl_igowa">
+      <span class="param-val" id="pv_igowa">0.70</span>
+    </div>
+    <div class="scenario-label"><span>0.0 hist. lejana</span><span>0.5 neutral</span><span>1.0 reciente</span></div>
+    <div class="param-row" style="margin-top:0.5rem;">
+      <span class="param-label" style="color:var(--color-text-secondary); font-size:12px;">lambda</span>
+      <span style="font-size:12px; color:var(--color-text-secondary);">Ingresar en consola (default: 2 como en el paper)</span>
+    </div>`,
+    compute: (v, n=10) => {
+      const orness=v/100;
+      if(Math.abs(orness-0.5)<0.01) return { w: Array(n).fill(1/n), sum: 1 };
+      const j=Array.from({length:n},(_,i)=>i+1);
+      let lo=-10, hi=10;
+      const orn = k => { const r=j.map(jj=>Math.exp(-k*(jj-1))); const s=r.reduce((a,b)=>a+b,0); const w=r.map(x=>x/s); return w.reduce((a,x,i)=>a+x*(n-j[i])/(n-1),0); };
+      for(let i=0;i<200;i++){const m=(lo+hi)/2; orn(m)>orness?hi=m:lo=m;}
+      const k=(lo+hi)/2;
+      const raw=j.map(jj=>Math.exp(-k*(jj-1))); const s=raw.reduce((a,b)=>a+b,0);
+      return { w: raw.map(x=>x/s), sum: 1 };
+    },
+    interp: () => 'IGOWA = IOWA + lambda. Los pesos son los mismos que IOWA, pero los valores se elevan a lambda antes de ponderar. Con lambda=2 se penalizan más los valores extremos al calcular las varianzas y covarianzas del OLS.'
+  },
+  ihowa: {
+    title: 'IHOWA — Induced Heavy OWA',
+    params: `<div class="param-row">
+      <span class="param-label">beta</span>
+      <input type="range" min="0" max="100" value="50" oninput="updateOp('ihowa',this.value)" id="sl_ihowa">
+      <span class="param-val" id="pv_ihowa">0.50</span>
+    </div>
+    <div class="scenario-label"><span>0.0 sin pesadez</span><span>0.5 medio</span><span>1.0 total</span></div>`,
+    compute: (v, n=10) => {
+      const beta=v/100; const target=1+beta*(n-1);
+      const j=Array.from({length:n},(_,i)=>i+1);
+      const raw=j.map(jj=>Math.exp(-0.5*(jj-1))); const s=raw.reduce((a,b)=>a+b,0);
+      return { w: raw.map(x=>x/s*target), sum: target };
+    },
+    interp: (v) => {
+      const b=v/100;
+      return `IHOWA combina: (1) reordenamiento por tiempo (más reciente = primero) + (2) pesos heavy (suma = ${(1+b*9).toFixed(1)} para n=10). Buen operador cuando la tendencia reciente importa Y el contexto es volátil. El paper lo ubica entre los mejores para USD/COP.`;
+    }
+  },
+  ighowa: {
+    title: 'IGHOWA — Induced Generalized Heavy OWA',
+    params: `<div class="param-row">
+      <span class="param-label">beta</span>
+      <input type="range" min="0" max="100" value="50" oninput="updateOp('ighowa',this.value)" id="sl_ighowa">
+      <span class="param-val" id="pv_ighowa">0.50</span>
+    </div>
+    <div class="scenario-label"><span>0.0 sin pesadez</span><span>0.5 medio</span><span>1.0 total</span></div>
+    <div class="param-row" style="margin-top:0.5rem;">
+      <span class="param-label" style="color:var(--color-text-secondary); font-size:12px;">lambda</span>
+      <span style="font-size:12px; color:var(--color-text-secondary);">Ingresar en consola (default: 2 — valor del paper)</span>
+    </div>`,
+    compute: (v, n=10) => {
+      const beta=v/100; const target=1+beta*(n-1);
+      const j=Array.from({length:n},(_,i)=>i+1);
+      const raw=j.map(jj=>Math.exp(-0.5*(jj-1))); const s=raw.reduce((a,b)=>a+b,0);
+      return { w: raw.map(x=>x/s*target), sum: target };
+    },
+    interp: (v) => {
+      const b=v/100;
+      return `IGHOWA = IHOWA + lambda. Es el operador más completo: recencia (IOWA) + sobreestimación (HOWA, suma=${(1+b*9).toFixed(1)}) + intensidad (lambda=2). El paper lo señala como el mejor para USD/BRLT y USD/COP. Recomendado como primera opción.`;
+    }
+  }
+};
+
+let currentOp = 'owa';
+let currentVal = { owa:70, howa:50, iowa:70, igowa:70, ihowa:50, ighowa:50 };
+
+function selectOp(el) {
+  document.querySelectorAll('.op-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  currentOp = el.dataset.op;
+  renderDetail(currentOp, currentVal[currentOp]);
+}
+
+function renderDetail(op, val) {
+  const d = opData[op];
+  document.getElementById('detailTitle').textContent = d.title;
+  document.getElementById('detailControls').innerHTML = d.params;
+  updateOp(op, val);
+}
+
+function updateOp(op, val) {
+  val = parseInt(val);
+  currentVal[op] = val;
+  const pv = document.getElementById('pv_'+op);
+  if(pv) pv.textContent = (val/100).toFixed(2);
+  const d = opData[op];
+  const n = 10;
+  const res = d.compute(val, n);
+  const bars = document.getElementById('weightBars');
+  const maxW = Math.max(...res.w);
+  const colors = { owa:'#185FA5', howa:'#3B6D11', iowa:'#BA7517', igowa:'#993C1D', ihowa:'#993356', ighowa:'#534AB7' };
+  const col = colors[op] || '#185FA5';
+  bars.innerHTML = res.w.map((w,i)=>{
+    const h = Math.max(2, Math.round(w/maxW*70));
+    return `<div class="bar" style="height:${h}px; background:${col}; opacity:${0.4+0.6*(w/maxW)};" title="lag ${i+1}: ${w.toFixed(3)}"></div>`;
+  }).join('');
+  const sumV = document.getElementById('sumVal');
+  sumV.textContent = res.sum.toFixed(2);
+  const interp = typeof d.interp === 'function' ? d.interp(val) : d.interp;
+  document.getElementById('interpBox').textContent = interp;
+  let hintText = res.sum <= 1.01 ? 'operador acotado (OWA-family)' : `operador heavy: |W| = ${res.sum.toFixed(2)}`;
+  document.getElementById('interpText').textContent = hintText;
+}
+
+function switchTab(idx) {
+  document.querySelectorAll('.tab-bar').item(0).querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  ['tab0','tab1','tab2'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',i===idx));
+}
+
+function switchTab2(idx) {
+  document.querySelectorAll('.tab-bar').item(1).querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  ['tab2_0','tab2_1','tab2_2'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',i===idx));
+}
+
+function toggleQa(el) {
+  const ans = el.nextElementSibling;
+  const chev = el.querySelector('.chevron');
+  ans.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+renderDetail('owa', 70);
+</script>
