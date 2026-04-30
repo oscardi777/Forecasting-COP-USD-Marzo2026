@@ -21,8 +21,10 @@ Estructura calcada de dfgcn.py:
   - Mismas métricas (MAE, RMSE, MAPE en escala normalizada y real COP)
 
 Uso:
-    python mlr_howa_rolling.py --data_path datos/tasas_BRL_COP_CHI_1993-2025.csv --save_predictions
-    python mlr_howa_rolling.py --data_path datos/tasa_cop_usd.csv --save_predictions
+    python mlr_howa.py --data_path datos/tasas_BRL_COP_CHI_1993-2025.csv --save_predictions
+    python mlr_howa.py --data_path datos/tasa_cop_usd.csv --save_predictions
+
+    python mlr_howa.py --data_path datos/data_rates_DifInterbank.csv --results_dir resultados_mlrhowa_DIFRates --save_predictions
 """
 
 import os
