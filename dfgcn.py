@@ -13,11 +13,13 @@ DISENO CLAVE — Periodos calendario reales:
 Uso: (guardar predicciones en csv)
     python dfgcn.py --data_path .\\datos\\tasas_BRL_COP_CHI_1993-2025.csv --results_dir ./resultados_rolling_ORates/ --save_predictions
 
-    python dfgcn.py --data_path .\\datos\\data_rates_gold.csv --results_dir ./resultados_rolling_Rates_Gold/ --save_predictions
-
-    python dfgcn.py --data_path .\\datos\\data_rates_bitcoin.csv --results_dir ./resultados_rolling_Rates_Bitcoin/ --save_predictions
+    python dfgcn.py --data_path .\\datos\\data_cop_usd_2019-2025.csv --results_dir ./resultados_rolling_ORates_2019-2025/ --save_predictions
 
     python dfgcn.py --data_path .\\datos\\data_ratesIB_exchange_2019-2025.csv --results_dir ./resultados_rolling_Rates_IB/ --save_predictions
+
+    python dfgcn.py --data_path .\\datos\\data_wordProf_2019-2025.csv --results_dir ./resultados_rolling_Profe_2019-2025/ --save_predictions
+
+    python dfgcn.py --data_path .\\datos\\data_comodities_interbank_2019-2025.csv --results_dir ./resultados_rolling_ComoditiesIB_2019-2025/ --save_predictions
 
 Opcional:
     --root_path   Carpeta raiz del CSV (default: .)

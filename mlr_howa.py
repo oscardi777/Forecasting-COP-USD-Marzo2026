@@ -25,6 +25,10 @@ Uso:
     python mlr_howa.py --data_path datos/tasa_cop_usd.csv --save_predictions
 
     python mlr_howa.py --data_path datos/data_rates_DifInterbank.csv --results_dir resultados_mlrhowa_DIFRates --save_predictions
+
+    python mlr_howa.py --data_path .\\datos\\data_wordProf_2019-2025.csv --results_dir ./resultados_mlrowa_Profe_2019-2025/ --save_predictions
+
+    python mlr_howa.py --data_path .\\datos\\data_comodities_interbank_2019-2025.csv --results_dir ./resultados_mlrowa_ComoditiesIB_2019-2025/ --save_predictions
 """
 
 import os
