@@ -1,7 +1,7 @@
-archivo_mlr,archivo_rw,horizonte,h_dias,N_obs,dm_stat,p_value,significativo_5%,significativo_1%,mejor_modelo,mae_mlr,mae_rw,rmse_mlr,rmse_rw,mape_mlr_%,mape_rw_%
-predictions_2019-2025_1_ano_3p_rol_owa.csv,predictions_randomwalk_1993-2025_1_ano.csv,1_ano,252,191592,-32.936109,0.0,True,True,DFGCN,64.7447,368.6662,84.2931,465.5682,1.5313,8.7263
-predictions_2019-2025_1_mes_12p_rol_owa.csv,predictions_randomwalk_1993-2025_1_mes.csv,1_mes,20,31583,3.820831,0.0001332575,True,True,RandomWalk,98.8268,92.5711,324.2218,126.4189,2.5337,2.2874
-predictions_2019-2025_1_semana_52p_rol_owa.csv,predictions_randomwalk_1993-2025_1_semana.csv,1_semana,5,7355,3.990678,6.65248e-05,True,True,RandomWalk,89.8607,46.7774,287.7544,66.1695,2.2759,1.1481
-predictions_2019-2025_2_meses_6p_rol_owa.csv,predictions_randomwalk_1993-2025_2_meses.csv,2_meses,40,62334,3.317344,0.0009092947,True,True,RandomWalk,100.8514,128.4538,323.4728,173.2167,2.5826,3.183
-predictions_2019-2025_3_meses_8p_rol_owa.csv,predictions_randomwalk_1993-2025_3_meses.csv,3_meses,60,75985,-30.125597,0.0,True,True,DFGCN,47.8181,133.9126,63.227,167.5772,1.149,3.2304
-predictions_2019-2025_6_meses_4p_rol_owa.csv,predictions_randomwalk_1993-2025_6_meses.csv,6_meses,120,143523,-21.713928,0.0,True,True,DFGCN,50.7822,198.3234,66.4602,259.9742,1.2214,4.7286
+archivo_dfgcn,archivo_rw,horizonte,h_dias,N_obs,dm_stat,p_value,significativo_5%,significativo_1%,mejor_modelo,mae_dfgcn,mae_rw,rmse_dfgcn,rmse_rw,mape_dfgcn_%,mape_rw_%
+predictions_2019-2025_1_ano_3p_rol_owa.csv,predictions_randomwalk_1993-2025_1_ano.csv,1_ano,252,191592,7.05104,0.0,True,True,RandomWalk,485.5266,368.6662,586.5755,465.5682,11.3714,8.7263
+predictions_2019-2025_1_mes_12p_rol_owa.csv,predictions_randomwalk_1993-2025_1_mes.csv,1_mes,20,31583,7.107898,0.0,True,True,RandomWalk,143.3316,92.5711,206.918,126.4189,3.607,2.2874
+predictions_2019-2025_1_semana_52p_rol_owa.csv,predictions_randomwalk_1993-2025_1_semana.csv,1_semana,5,7355,1.123988,0.2610547482,False,False,Sin diferencia significativa,227.5177,46.7774,4023.586,66.1695,5.9609,1.1481
+predictions_2019-2025_2_meses_6p_rol_owa.csv,predictions_randomwalk_1993-2025_2_meses.csv,2_meses,40,62334,7.870789,0.0,True,True,RandomWalk,192.1601,128.4538,281.7601,173.2167,4.8049,3.183
+predictions_2019-2025_3_meses_4p_rol_owa.csv,predictions_randomwalk_1993-2025_3_meses.csv,3_meses,60,91968,6.875756,0.0,True,True,RandomWalk,208.6834,142.0493,309.5409,187.5248,5.2384,3.5281
+predictions_2019-2025_6_meses_4p_rol_owa.csv,predictions_randomwalk_1993-2025_6_meses.csv,6_meses,120,143523,10.057717,0.0,True,True,RandomWalk,332.0317,198.3234,472.1148,259.9742,7.8797,4.7286
