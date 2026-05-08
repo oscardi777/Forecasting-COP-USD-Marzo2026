@@ -1,0 +1,7 @@
+archivo_dfgcn,archivo_rw,horizonte,h_dias,N_obs,dm_stat,p_value,significativo_5%,significativo_1%,mejor_modelo,mae_dfgcn,mae_rw,rmse_dfgcn,rmse_rw,mape_dfgcn_%,mape_rw_%
+predictions_2019-2025_1_ano_3p_rol.csv,predictions_randomwalk_1993-2025_1_ano.csv,1_ano,252,191592,0.206361,0.8365091193,False,False,Sin diferencia significativa,356.3232,368.6662,468.4313,465.5682,8.3451,8.7263
+predictions_2019-2025_1_mes_12p_rol.csv,predictions_randomwalk_1993-2025_1_mes.csv,1_mes,20,31583,10.110795,0.0,True,True,RandomWalk,134.9567,92.5711,181.2253,126.4189,3.3227,2.2874
+predictions_2019-2025_1_semana_52p_rol.csv,predictions_randomwalk_1993-2025_1_semana.csv,1_semana,5,7355,13.404166,0.0,True,True,RandomWalk,103.9147,46.7774,137.8233,66.1695,2.5625,1.1481
+predictions_2019-2025_2_meses_6p_rol.csv,predictions_randomwalk_1993-2025_2_meses.csv,2_meses,40,62334,7.786878,0.0,True,True,RandomWalk,163.4273,128.4538,215.6205,173.2167,4.0224,3.183
+predictions_2019-2025_3_meses_8p_rol.csv,predictions_randomwalk_1993-2025_3_meses.csv,3_meses,60,75985,8.94549,0.0,True,True,RandomWalk,175.0709,133.9126,223.413,167.5772,4.161,3.2304
+predictions_2019-2025_6_meses_4p_rol.csv,predictions_randomwalk_1993-2025_6_meses.csv,6_meses,120,143523,7.153887,0.0,True,True,RandomWalk,247.7569,198.3234,328.0744,259.9742,5.8114,4.7286

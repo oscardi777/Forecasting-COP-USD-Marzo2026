@@ -32,9 +32,9 @@ Test DM (Diebold & Mariano, 1995):
   - DM > 0 significa Random Walk es mejor
 
 Uso:
-    python dm_test.py
-    python dm_test.py --path_dfgcn ./resultados_rolling/ --path_rw ./resultados_randomwalk/
-    python dm_test.py --output dm_resultados.csv
+    python dm_test.py --path_dfgcn ./resultados_rolling_ORates/ --path_rw ./resultados_randomwalk/ --output dm_resultados_DFGCN_ORates.csv
+
+    python dm_test.py --path_dfgcn ./resultados_mlrowa_ORates/ --path_rw ./resultados_randomwalk/ --output dm_resultados_mlrowa_ORates.csv
 """
 
 import os
